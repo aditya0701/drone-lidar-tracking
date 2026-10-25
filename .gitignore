@@ -1,0 +1,35 @@
+# Raw and processed data (large, and the MMAUD license forbids redistribution)
+data/
+*.bag
+*.db3
+*.mcap
+*.pcd
+*.ply
+*.bin
+*.npz
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+.venv/
+*.egg-info/
+
+# Editor and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ROS 2 build output
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+
+# Large result files (commit small figures and tables only)
+results/*.mp4
+results/*.avi
+
+# Local Claude Code settings
+.claude/settings.local.json
