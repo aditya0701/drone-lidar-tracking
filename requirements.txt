@@ -1,0 +1,23 @@
+# Environment: conda env "lidar-drone", Python 3.11
+# Create with:
+#   conda create -n lidar-drone python=3.11
+#   conda activate lidar-drone
+#   pip install -r requirements.txt
+# Versions below are the ones that were installed and imported successfully on 2026-10-25.
+
+# Reading ROS bags without a ROS install
+rosbags==0.11.9
+
+# Core numerics and point clouds
+numpy==2.4.6
+scipy==1.17.1
+open3d==0.20.0
+
+# Plots and config
+matplotlib==3.11.2
+pyyaml==6.0.3
+
+# Tests and notebooks
+pytest==9.1.1
+jupyterlab==4.6.4
+ipykernel==7.4.0

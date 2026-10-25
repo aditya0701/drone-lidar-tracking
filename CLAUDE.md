@@ -90,7 +90,7 @@ Suggested pipeline (propose changes if you see better options):
 - **Machine**: Windows 11 Home, Intel Core Ultra 7 258V, 31.5 GB RAM, no NVIDIA GPU. The classical parts run on the laptop CPU.
 - **GPU training** (only if the optional learned detector is built): use free Kaggle notebooks (about 30 GPU hours per week, third-party figure) or free Colab. DeepInfra is an inference service and is not used for training. Keep training code separate from the main pipeline, save checkpoints often, and preprocess the large bags on the laptop into small files before uploading anything.
 - **Disk space**: D: has about 361 GB free. Ask me before downloading anything large, and prefer small sequences first.
-- **Python environment**: conda, created by path in `D:\my_envs\lidar-drone` with Python 3.10 (`conda create -p D:\my_envs\lidar-drone python=3.10`, activate with the full path). Conda does not search `D:\my_envs` by default, so do not change my global conda config unless I ask. Existing env there: `sam-edge`, do not touch it.
+- **Python environment**: conda env named `lidar-drone` (Python 3.11), stored in `D:\my_envs\lidar-drone`. `D:\my_envs` was added to the top of conda's `envs_dirs` (in `~/.condarc`), so use `conda activate lidar-drone` from anywhere. Python 3.11 was chosen over 3.10 because Anaconda stops building new 3.10 packages after October 31, 2026. Packages are installed with pip from `requirements.txt` (pinned to the installed versions). In scripts, the interpreter is `D:\my_envs\lidar-drone\python.exe`. Other env there: `sam-edge`, do not touch it.
 - **ROS 2**: native Windows is a poor fit. Use WSL2 with Ubuntu 22.04 (Humble) or 24.04 (Jazzy) when we reach the ROS 2 phase. Check whether WSL is installed before suggesting setup.
 - Pinned `requirements.txt` or `environment.yml` and a fixed random seed for reproducibility.
 
@@ -153,9 +153,11 @@ Done so far:
 1. Environment checked: Windows 11, Python 3.12 system install, conda at `C:\Users\adima\anaconda3` (mamba available), no NVIDIA GPU, D: has about 361 GB free.
 2. Datasets researched and MMAUD chosen (section 3). nuScenes mini details are still unverified.
 
+3. MMAUD V1 Mavic3 downloaded into `data/mmaud/v1_mavic3/`: `Mavic3.bag` (11.07 GiB) and `2023-08-24-11-14-40_mavic3_groundtruth.bag` (159 KB, renamed from the original). Not yet inspected, and the file-to-column mapping on the MMAUD page was inferred, so confirm from the contents.
+4. GitHub repo created and first commit pushed: https://github.com/aditya0701/drone-lidar-tracking (data is gitignored).
+5. Conda env `lidar-drone` created (Python 3.11) with pinned packages in `requirements.txt`: rosbags, numpy, scipy, open3d, matplotlib, pyyaml, pytest, jupyterlab, ipykernel.
+
 Next:
 
-1. Create the `data/mmaud/v1_mavic3/` folder. I download the Mavic3 ROSBag Data and Ground truth .bag files by hand from the MMAUD GitHub page, and tell you when they are in place.
-2. Propose the pinned dependency list and the environment file. Wait for my confirmation, then create the conda env at `D:\my_envs\lidar-drone`.
-3. Inspect the bags: topics, message types, rates, radar data, ground truth frame. Report what you find before writing the main pipeline.
-4. Write a script that loads one sequence and renders one point cloud frame with the ground truth position overlaid.
+1. Write `src/io/inspect_bag.py` and inspect both bags: topics, message types, rates, radar data, ground truth frame. Check that `rosbags` reads the compressed ROS 1 bag and the Livox custom messages. Report what you find before writing the main pipeline.
+2. Write a script that loads one sequence and renders one point cloud frame with the ground truth position overlaid, then an exploration notebook that calls it.
